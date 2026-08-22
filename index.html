@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMAY | Ecosistema de desarrollo humano</title>
+<meta name="description" content="AMAY acompaña a personas, instituciones educativas y organizaciones a reconectar con su propósito, desarrollar su potencial y volver a sentirse vivas.">
+<link rel="icon" type="image/png" href="assets/mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,ital@9..144,300..700,0..1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F3;
+    --bg-lavender:#F1E7F4;
+    --bg-peach:#FDE7E0;
+    --white:#FFFFFF;
+    --plum:#3F1040;
+    --plum-soft:#6E4C71;
+    --ink-muted:#7C6C7E;
+    --coral:#FC7866;
+    --coral-dark:#E9634F;
+    --line:rgba(63,16,64,0.10);
+    --shadow-sm:0 6px 16px rgba(63,16,64,0.08);
+    --shadow-md:0 20px 40px rgba(63,16,64,0.12);
+    --shadow-lg:0 32px 60px rgba(63,16,64,0.16);
+    --radius:26px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--plum);
+    font-family:'Inter', sans-serif;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--coral); color:#fff; }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    line-height:1.14;
+    letter-spacing:-0.01em;
+    color:var(--plum);
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{max-width:100%; display:block;}
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- Header ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(251,247,243,0.78);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:84px;
+  }
+  .logo-mark{ height:38px; transition:transform .3s ease; }
+  header a:hover .logo-mark{ transform:scale(1.04); }
+  nav{ display:flex; gap:36px; align-items:center; }
+  nav a{
+    font-size:0.92rem; color:var(--plum-soft); font-weight:500;
+    transition:color .25s ease;
+  }
+  nav a{ position:relative; }
+  nav a::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:0; height:2px;
+    background:var(--coral); transition:width .25s ease;
+  }
+  nav a:hover{ color:var(--coral-dark); }
+  nav a:hover::after{ width:100%; }
+  .nav-cta{
+    background:var(--coral); color:#fff !important;
+    padding:12px 24px; border-radius:100px;
+    font-weight:600; font-size:0.88rem;
+    box-shadow:0 10px 24px rgba(252,120,102,0.35);
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .nav-cta::after{ display:none; }
+  .nav-cta:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 14px 30px rgba(252,120,102,0.45); background:var(--coral-dark); }
+
+  header.scrolled{
+    background:rgba(251,247,243,0.94);
+    box-shadow:0 8px 24px rgba(63,16,64,0.06);
+  }
+
+  /* ---------- Floating WhatsApp button ---------- */
+  .float-wa{
+    position:fixed; right:26px; bottom:26px; z-index:200;
+    width:60px; height:60px; border-radius:50%;
+    background:var(--coral); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 14px 30px rgba(252,120,102,0.45);
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, background .3s ease;
+  }
+  .float-wa::before{
+    content:""; position:absolute; inset:0; border-radius:50%;
+    box-shadow:0 0 0 0 rgba(252,120,102,0.5);
+    animation:pulse-ring 2.4s ease-out infinite;
+  }
+  @keyframes pulse-ring{
+    0%{ box-shadow:0 0 0 0 rgba(252,120,102,0.45); }
+    80%{ box-shadow:0 0 0 18px rgba(252,120,102,0); }
+    100%{ box-shadow:0 0 0 0 rgba(252,120,102,0); }
+  }
+  .float-wa:hover{ transform:translateY(-4px) scale(1.06); background:var(--coral-dark); box-shadow:0 18px 36px rgba(233,99,79,0.5); }
+  .float-wa svg{ width:28px; height:28px; }
+
+  /* ---------- 3D floating spheres (signature) ---------- */
+  .sphere{
+    position:absolute; border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #fff, var(--s-color1) 45%, var(--s-color2) 100%);
+    box-shadow: var(--shadow-lg), inset -8px -10px 20px rgba(0,0,0,0.08);
+    animation:float 7s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-18px) rotate(6deg); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding-top:130px; padding-bottom:100px;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    position:relative;
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:64px; align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 4vw, 3.2rem);
+  }
+  .hero h1 em{ font-style:italic; color:var(--coral); }
+  .hero p{
+    margin-top:24px; font-size:1.08rem; color:var(--ink-muted);
+    max-width:46ch;
+  }
+  .hero-actions{ margin-top:38px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:15px 28px; border-radius:100px;
+    font-weight:600; font-size:0.95rem;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .btn-primary{ background:var(--coral); color:#fff; box-shadow:0 14px 28px rgba(252,120,102,0.35); }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 18px 34px rgba(252,120,102,0.45); }
+  .btn-ghost{ background:#fff; color:var(--plum); box-shadow:var(--shadow-sm); }
+  .btn-ghost:hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); }
+
+  .img-slot{
+    position:relative;
+    border-radius:var(--radius);
+    background:linear-gradient(155deg, var(--bg-lavender), var(--bg-peach));
+    box-shadow:var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.6);
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    color:var(--plum-soft);
+    overflow:hidden;
+  }
+  .img-slot .slot-label{
+    font-size:0.82rem; font-weight:600; letter-spacing:0.03em;
+    padding:10px 18px; background:rgba(255,255,255,0.75);
+    border-radius:100px; backdrop-filter:blur(6px);
+  }
+  .img-slot img{ width:100%; height:100%; object-fit:cover; }
+
+  .hero-img{ aspect-ratio:4/5; }
+  .hero-img .sphere.s1{ width:120px; height:120px; top:-40px; left:-40px; --s-color1:#FDE7E0; --s-color2:var(--coral); }
+  .hero-img .sphere.s2{ width:70px; height:70px; bottom:20px; right:-25px; --s-color1:#F1E7F4; --s-color2:var(--plum); animation-delay:1.4s; }
+  .propuesta-img{ aspect-ratio:3/2; }
+
+  /* ---------- Sections generic ---------- */
+  section{ padding:120px 0; position:relative; }
+  .section-lavender{ background:var(--bg-lavender); }
+  .lede{
+    font-size:clamp(1.5rem, 2.6vw, 2rem);
+    max-width:20ch;
+  }
+  .lede-carved{
+    text-shadow:
+      1px 1px 0 rgba(255,255,255,0.75),
+      -1px -1px 1px rgba(63,16,64,0.4),
+      -2px -2px 3px rgba(63,16,64,0.12);
+  }
+  .lede-panel{
+    margin-top:32px;
+    height:230px;
+    border-radius:24px;
+    background:linear-gradient(155deg, var(--bg-lavender), var(--bg-peach));
+    box-shadow:var(--shadow-md), inset 0 0 0 1px rgba(255,255,255,0.6);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .lede-panel svg{ width:120px; height:120px; animation:breathe 6s ease-in-out infinite; }
+  .lede-panel .ring-outer{ fill:none; stroke:var(--plum); stroke-width:1.4; opacity:0.3; }
+  .lede-panel .spin-cw{ transform-origin:60px 60px; animation:spin-cw 14s linear infinite; }
+  .lede-panel .spin-ccw{ transform-origin:60px 60px; animation:spin-ccw 7s linear infinite; }
+  .lede-panel .ring-mid{ fill:none; stroke:url(#ledeGrad); stroke-width:2.2; stroke-dasharray:6 6; }
+  .lede-panel .ring-dot{ fill:var(--coral); filter:drop-shadow(0 2px 4px rgba(252,120,102,0.6)); }
+  @keyframes spin-cw{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  @keyframes spin-ccw{ from{ transform:rotate(360deg); } to{ transform:rotate(0deg); } }
+  @keyframes breathe{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.06); }
+  }
+  .two-col{
+    display:grid; grid-template-columns:0.8fr 1.2fr; gap:64px; align-items:start;
+  }
+  .two-col p + p{ margin-top:18px; }
+  .two-col p{ color:var(--ink-muted); font-size:1.05rem; max-width:56ch; }
+
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Caminos ---------- */
+  .caminos-head{ text-align:center; max-width:640px; margin:0 auto 64px; }
+  .caminos-head h2{ font-size:clamp(1.8rem,3.2vw,2.4rem); }
+  .caminos-head p{ color:var(--ink-muted); margin-top:16px; font-size:1.05rem; }
+  .caminos-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+  }
+  .camino-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:0 0 32px;
+    box-shadow:var(--shadow-md);
+    border:1px solid transparent;
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+  }
+  .camino-card:hover{ transform:translateY(-10px); box-shadow:var(--shadow-lg); border-color:var(--c-bg2); }
+  .camino-img{
+    aspect-ratio:16/11;
+    background:linear-gradient(155deg, var(--c-bg1), var(--c-bg2));
+    display:flex; align-items:flex-end; justify-content:flex-start;
+    position:relative;
+  }
+  .camino-badge{
+    position:absolute; left:24px; bottom:-26px;
+    width:60px; height:60px; border-radius:18px;
+    background:#fff; box-shadow:var(--shadow-md);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .35s ease;
+  }
+  .camino-card:hover .camino-badge{ transform:translateY(-4px) rotate(-4deg); }
+  .camino-badge .sphere{ position:static; width:26px; height:26px; animation:none; }
+  .camino-tag{
+    display:inline-block; align-self:flex-start;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--c-text); background:var(--c-tagbg);
+    padding:6px 14px; border-radius:100px;
+  }
+  .camino-body{ padding:44px 28px 0; display:flex; flex-direction:column; gap:18px; flex:1; }
+  .camino-card h3{ font-size:1.24rem; line-height:1.32; font-weight:500; }
+  .camino-card .fill{ flex:1; }
+  .camino-link{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.92rem; font-weight:600; color:var(--plum);
+    padding-top:16px; margin-top:2px; border-top:1px solid var(--line);
+  }
+  .camino-link svg{ transition:transform .25s ease; stroke:var(--coral-dark); }
+  .camino-card:hover .camino-link svg{ transform:translateX(4px); }
+  .c1{ --c-bg1:#FDE7E0; --c-bg2:#FBD2C6; --c-tagbg:#FDE0D6; --c-text:var(--coral-dark); }
+  .c1 .sphere{ --s-color1:#fff; --s-color2:var(--coral); }
+  .c2{ --c-bg1:#F1E7F4; --c-bg2:#E4D2EA; --c-tagbg:#EADCEE; --c-text:var(--plum); }
+  .c2 .sphere{ --s-color1:#fff; --s-color2:var(--plum); }
+  .c3{ --c-bg1:#EAF1E6; --c-bg2:#D8E7D2; --c-tagbg:#DCEAD5; --c-text:#4C7A3D; }
+  .c3 .sphere{ --s-color1:#fff; --s-color2:#6E9A5C; }
+
+  .camino-card-img{
+    display:block; border-radius:var(--radius); overflow:hidden;
+    box-shadow:var(--shadow-md);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+  }
+  .camino-card-img img{ width:100%; height:100%; object-fit:cover; }
+  .camino-card-img:hover{ transform:translateY(-10px) scale(1.015); box-shadow:var(--shadow-lg); }
+
+  .camino-cta{
+    display:flex; align-items:center; gap:8px;
+    margin-top:16px; font-size:0.94rem; font-weight:600; color:var(--plum);
+    transition:color .25s ease, gap .25s ease;
+  }
+  .camino-cta svg{ stroke:var(--coral-dark); transition:transform .25s ease; }
+  .camino-item:hover .camino-cta{ color:var(--coral-dark); }
+  .camino-item:hover .camino-cta svg{ transform:translateX(5px); }
+
+  /* ---------- Sobre mí ---------- */
+  .about{
+    display:grid; grid-template-columns:0.6fr 1.4fr; gap:64px; align-items:center;
+  }
+  .about-portrait{ aspect-ratio:1/1; max-width:280px; margin:0 auto; border-radius:22px; }
+  .about-portrait .sphere.s1{ width:70px; height:70px; bottom:-24px; left:-24px; --s-color1:#fff; --s-color2:var(--coral); }
+  .about h2{ font-size:clamp(1.7rem,3vw,2.2rem); margin-bottom:20px; }
+  .about p{ color:var(--ink-muted); font-size:1.03rem; }
+  .about p + p{ margin-top:16px; }
+  .about blockquote{
+    margin-top:26px; padding:24px 28px;
+    font-family:'Fraunces', serif; font-style:italic; font-size:1.16rem;
+    color:var(--plum);
+    background:var(--white); border-radius:18px;
+    box-shadow:var(--shadow-sm);
+    border-left:3px solid var(--coral);
+  }
+
+  /* ---------- CTA final ---------- */
+  .final-cta{ text-align:center; }
+  .final-cta h2{ font-size:clamp(1.9rem,3.4vw,2.5rem); max-width:16ch; margin:0 auto 20px; }
+  .final-cta p{ color:var(--ink-muted); max-width:52ch; margin:0 auto 36px; font-size:1.06rem; }
+  .contact-row{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .contact-chip{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--white);
+    padding:15px 24px; border-radius:100px; font-size:0.94rem; font-weight:500;
+    box-shadow:var(--shadow-sm);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .contact-chip:hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); }
+
+  footer{
+    padding:40px 0; border-top:1px solid var(--line);
+    color:var(--ink-muted); font-size:0.85rem;
+  }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; align-items:center; }
+  footer img{ height:22px; opacity:0.75; }
+
+  @media (max-width: 860px){
+    nav{ display:none; }
+    .hero .wrap, .two-col, .about{ grid-template-columns:1fr; }
+    .hero-img{ order:-1; max-width:340px; margin:0 auto; }
+    .caminos-grid{ grid-template-columns:1fr; }
+    .about-portrait{ max-width:280px; margin:0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#top"><img src="assets/logo.png" alt="AMAY" class="logo-mark"></a>
+    <nav>
+      <a href="#propuesta">Propuesta</a>
+      <a href="#caminos">Caminos</a>
+      <a href="#sobre-mi">Sobre AMAY</a>
+      <a href="#contacto" class="nav-cta">Hablemos</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Hay momentos en los que dejamos de conectar <em>con nosotros mismos.</em></h1>
+        <p>Vivimos en piloto automático. Cumplimos con nuestras responsabilidades, pero sentimos que algo dejó de tener sentido. AMAY nace para acompañarte en ese camino de reencuentro.</p>
+        <div class="hero-actions">
+          <a href="#caminos" class="btn btn-primary">Conocer los caminos</a>
+          <a href="https://wa.me/5493874207867" target="_blank" rel="noopener" class="btn btn-ghost">Escribir por WhatsApp</a>
+        </div>
+      </div>
+      <div class="img-slot hero-img">
+        <img src="assets/hero.jpg" alt="AMAY">
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div style="height:1px;background:var(--line);"></div></div>
+
+  <!-- TAL VEZ TE ESTÁ PASANDO ESTO -->
+  <section id="propuesta">
+    <div class="wrap two-col reveal" style="align-items:center;">
+      <div class="img-slot propuesta-img">
+        <img src="assets/tal-vez.jpg" alt="Tal vez te está pasando esto">
+      </div>
+      <div>
+        <h2 class="lede" style="margin-bottom:20px;">Tal vez te está pasando esto...</h2>
+        <p>Te levantás cada día y cumplís con todo lo que tenés que hacer. Pero hace tiempo que dejaste de preguntarte qué necesitás vos.</p>
+        <p>Vivís en piloto automático. Las responsabilidades ocupan cada vez más espacio. Los días pasan rápido.</p>
+        <p>Y, sin darte cuenta, comenzaste a sobrevivir en lugar de vivir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR ESO NACIÓ AMAY -->
+  <section class="section-lavender">
+    <div class="wrap two-col reveal">
+      <div>
+        <h2 class="lede lede-carved">Por eso nació AMAY.</h2>
+        <div class="lede-panel">
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="ledeGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="var(--plum)"/>
+                <stop offset="100%" stop-color="var(--coral)"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-outer" cx="60" cy="60" r="52"/>
+            <g class="spin-cw">
+              <circle class="ring-mid" cx="60" cy="60" r="34"/>
+            </g>
+            <g class="spin-ccw">
+              <circle class="ring-dot" cx="60" cy="26" r="5"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <p>Creemos que toda transformación comienza cuando nos animamos a mirar aquello que ya no podemos seguir ignorando.</p>
+        <p>AMAY es un ecosistema de desarrollo humano que acompaña a personas, instituciones educativas y organizaciones a reconectar con su propósito, desarrollar su potencial y volver a sentirse vivas.</p>
+        <p>Creemos en procesos de acompañamiento que respetan los tiempos, la historia y el camino de cada persona y organización.</p>
+        <p>Diseñamos las condiciones para que las personas adopten los comportamientos que la organización necesita.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRES CAMINOS -->
+  <section id="caminos">
+    <div class="wrap">
+      <div class="caminos-head reveal">
+        <h2>Un mismo propósito. Tres caminos.</h2>
+        <p>Cada persona, cada docente y cada organización atraviesa desafíos diferentes. En AMAY diseñamos tres caminos de acompañamiento, con un mismo propósito: volver a sentirte vivo.</p>
+      </div>
+
+      <div class="caminos-grid reveal">
+        <div class="camino-item">
+          <a class="camino-card-img" target="_blank" rel="noopener"
+             href="https://wa.me/5493874207867?text=Hola%20Ale.%20Estuve%20recorriendo%20AMAY%20y%20me%20identifiqu%C3%A9%20con%20AMAY%20Personas.%20Me%20gustar%C3%ADa%20conversar%20con%20vos.">
+             <img src="assets/personas.png" alt="AMAY Personas — Volver a encontrarte con vos mismo">
+          </a>
+          <a class="camino-cta" target="_blank" rel="noopener"
+             href="https://wa.me/5493874207867?text=Hola%20Ale.%20Estuve%20recorriendo%20AMAY%20y%20me%20identifiqu%C3%A9%20con%20AMAY%20Personas.%20Me%20gustar%C3%ADa%20conversar%20con%20vos.">
+             Hablemos
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="camino-item">
+          <a class="camino-card-img" target="_blank" rel="noopener"
+             href="https://wa.me/5493874207867?text=Hola%20Ale.%20Estuve%20recorriendo%20AMAY%20y%20me%20interesa%20conocer%20c%C3%B3mo%20AMAY%20puede%20acompa%C3%B1ar%20a%20nuestra%20instituci%C3%B3n%20educativa.%20%C2%BFPodemos%20conversar%3F">
+             <img src="assets/educacion.png" alt="AMAY Educación — Volver a encontrar el sentido de educar">
+          </a>
+          <a class="camino-cta" target="_blank" rel="noopener"
+             href="https://wa.me/5493874207867?text=Hola%20Ale.%20Estuve%20recorriendo%20AMAY%20y%20me%20interesa%20conocer%20c%C3%B3mo%20AMAY%20puede%20acompa%C3%B1ar%20a%20nuestra%20instituci%C3%B3n%20educativa.%20%C2%BFPodemos%20conversar%3F">
+             Hablemos
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="camino-item">
+          <a class="camino-card-img" target="_blank" rel="noopener"
+             href="https://wa.me/5493874207867?text=Hola%20Ale.%20Estuve%20recorriendo%20AMAY%20y%20me%20interesa%20conocer%20c%C3%B3mo%20AMAY%20puede%20acompa%C3%B1ar%20a%20nuestra%20organizaci%C3%B3n.%20%C2%BFPodemos%20conversar%3F">
+             <img src="assets/organizaciones.png" alt="AMAY Business — Volver a construir organizaciones vivas">
+          </a>
+          <a class="camino-cta" target="_blank" rel="noopener"
+             href="https://wa.me/5493874207867?text=Hola%20Ale.%20Estuve%20recorriendo%20AMAY%20y%20me%20interesa%20conocer%20c%C3%B3mo%20AMAY%20puede%20acompa%C3%B1ar%20a%20nuestra%20organizaci%C3%B3n.%20%C2%BFPodemos%20conversar%3F">
+             Hablemos
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MI -->
+  <section id="sobre-mi" class="section-lavender">
+    <div class="wrap about reveal">
+      <div class="img-slot about-portrait">
+        <img src="assets/ale.jpg" alt="Alejandra Vera Naharro">
+      </div>
+      <div>
+        <h2>Quién está detrás de AMAY</h2>
+        <p>Mi nombre es Alejandra Vera Naharro, creadora de AMAY. Mi recorrido comenzó en la informática y, con los años, encontré mi propósito acompañando procesos de aprendizaje, desarrollo humano y transformación organizacional.</p>
+        <p>Desde hace más de 15 años acompaño a personas, instituciones educativas y organizaciones diseñando experiencias que fortalecen el aprendizaje, la cultura y el desarrollo de las personas.</p>
+        <p>AMAY nace de una convicción muy simple: las personas no cambian porque alguien les explique qué hacer. Cambian cuando viven experiencias que las transforman. Por eso en AMAY diseñamos las condiciones para que las personas vuelvan a sentirse parte, encuentren propósito y desarrollen su potencial.</p>
+        <blockquote>“Las personas no cambian porque alguien les explique qué hacer. Cambian cuando viven experiencias que las transforman.”</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="contacto">
+    <div class="wrap final-cta reveal">
+      <h2>Todo gran cambio comienza con una conversación.</h2>
+      <p>Si alguna parte de esta página resonó con vos, nos encantará conocerte y escuchar tu historia.</p>
+      <div class="contact-row">
+        <a class="contact-chip" href="https://wa.me/5493874207867" target="_blank" rel="noopener">📱 WhatsApp</a>
+        <a class="contact-chip" href="mailto:amay.experiencia@gmail.com">📧 amay.experiencia@gmail.com</a>
+        <a class="contact-chip" href="https://www.linkedin.com/in/alejandraveranaharro/" target="_blank" rel="noopener">🔗 LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/mark.png" alt="AMAY">
+    <span>© <span id="year"></span> AMAY — Salta, Argentina</span>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/5493874207867" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4a8.94 8.94 0 0 0-7.74 13.4L3 21l3.7-1.28a8.9 8.9 0 0 0 4.35 1.12h0a8.94 8.94 0 0 0 6.55-15.52ZM12.05 19.4a7.42 7.42 0 0 1-3.78-1.03l-.27-.16-2.24.78.75-2.22-.18-.28a7.44 7.44 0 1 1 5.72 2.9Zm4.08-5.56c-.22-.11-1.32-.65-1.53-.73s-.35-.11-.5.11-.58.73-.71.88-.26.16-.48.05a6.13 6.13 0 0 1-1.8-1.11 6.7 6.7 0 0 1-1.24-1.54c-.13-.22 0-.34.1-.45s.22-.26.33-.39a1.5 1.5 0 0 0 .22-.37.4.4 0 0 0 0-.39c-.05-.11-.5-1.2-.68-1.64s-.36-.38-.5-.38h-.43a.82.82 0 0 0-.6.28 2.5 2.5 0 0 0-.78 1.86 4.36 4.36 0 0 0 .91 2.3 9.98 9.98 0 0 0 3.82 3.38c.53.23.95.37 1.27.47a3.05 3.05 0 0 0 1.4.09 2.3 2.3 0 0 0 1.51-1.06 1.87 1.87 0 0 0 .13-1.06c-.05-.1-.2-.16-.42-.27Z"/></svg>
+</a>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); } });
+  }, { threshold:0.2 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', ()=>{
+    header.classList.toggle('scrolled', window.scrollY > 12);
+  });
+</script>
+
+</body>
+</html>
